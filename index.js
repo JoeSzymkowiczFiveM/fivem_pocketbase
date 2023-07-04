@@ -89,7 +89,6 @@ async function dbCreate(params) {
     const body = safeObjectArgument(params.body);
     const query = safeObjectArgument(params.query);
     try {
-        console.log(body)
         const result = await collection.create(body, query);
         const arr = [];
         arr.push(result);
