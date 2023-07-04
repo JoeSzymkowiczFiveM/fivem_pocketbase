@@ -64,3 +64,23 @@ end
 local result = PocketBase.delete({ collection = "players", id = 'ciiuthvkabafupj', query = {}})
 print(result) -- result is a bool
 ```
+
+
+## ↔️ Expand functionality
+### Expanding relations in Read functions
+PocketBase collections allow you to expand record relation fields directly in the returned response without making additional requests by just using the expand `query` parameter. In the example below, `vehicles` has a relationship to `players` via the `playerid`, and will return the associated `players` record in the `expand.playerid` field. More information about PocketBase relations can be found [here](https://pocketbase.io/docs/expanding-relations).
+
+```lua
+---@param collection string, this is the collection name the record that is being updated, belongs to
+---@param id string, this is a record id from the
+local result = PocketBase.getFirstListItem({ collection = "vehicles", filter = 'model="elegyx"', query = {expand = 'playerid'}} )
+if result[1] == nil then return end
+for k, v in pairs(result[1]) do -- result contains the queried vehicle data, and the associated player data in the expand.playerid table
+    print(k, tostring(v))
+    if k == 'expand' then
+        for a, s in pairs(v.playerid) do
+            print(k..'.'..a, tostring(s))
+        end
+    end
+end
+```
