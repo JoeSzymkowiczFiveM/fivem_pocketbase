@@ -50,6 +50,7 @@ function safeObjectArgument(object) {
         return object;
     }
     if (typeof object !== "object") return {};
+    return object
 };
 
 async function dbGetFullList(params) {
@@ -62,7 +63,7 @@ async function dbGetFullList(params) {
         return result;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.getFullList: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
@@ -78,7 +79,7 @@ async function dbUpdate(params) {
         return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
@@ -88,13 +89,14 @@ async function dbCreate(params) {
     const body = safeObjectArgument(params.body);
     const query = safeObjectArgument(params.query);
     try {
+        console.log(body)
         const result = await collection.create(body, query);
         const arr = [];
         arr.push(result);
         return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.create: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
@@ -107,7 +109,7 @@ async function dbDelete(params) {
         return result;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.delete: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
@@ -121,7 +123,7 @@ async function dbGetOne(params) {
         return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.getOne: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
@@ -131,11 +133,11 @@ async function dbgetFirstListItem(params) {
     try {
         const result = await collection.getFirstListItem(params.filter, query);
         const arr = [];
-        arr.push(result);
+        arr.push(result)
         return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
-        return err.message;
+        return [{}];
     }
 }
 
