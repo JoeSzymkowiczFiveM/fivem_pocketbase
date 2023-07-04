@@ -61,6 +61,6 @@ end
 ```lua
 ---@param collection string, this is the collection name the record that is being updated, belongs to
 ---@param id string, this is a record id from the
-local result = PocketBase.delete({ collection = "test", id = 'ciiuthvkabafupj', query = {}})
+local result = PocketBase.delete({ collection = "players", id = 'ciiuthvkabafupj', query = {}})
 print(result) -- result is a bool
 ```
