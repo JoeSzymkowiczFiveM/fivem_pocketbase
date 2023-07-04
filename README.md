@@ -1,6 +1,6 @@
 # fivem_pocketbase
 
-A FiveM resource to communicate with a PocketBase database using [pocketbase](https://www.npmjs.com/package/pocketbase).
+A FiveM resource to communicate with a PocketBase database using [pocketbase](https://www.npmjs.com/package/pocketbase). Get started using PocketBase by downloading the database [here](https://pocketbase.io/docs/). It's an extremely fast, extremely lightweight database that uses SQLite, built with Go, and includes it's own admin web UI.
 
 
 ## ✨ Features
