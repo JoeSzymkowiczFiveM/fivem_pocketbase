@@ -14,7 +14,7 @@ end)
 ### PocketBase.getFullList
 ```lua
 ---@param collection string, this is the collection name the record that is being updated, belongs to
----@param query object, contains the 
+---@param query object, contains the query parameters for filtering your selection
 local result = PocketBase.getFullList({ collection = "players", query = {filter = 'created > "2022-08-01 10:00:00"'}})
 for i=1, #result do -- result is a numerically-ordered table of records from the queried collection, given the query selection criteria. With no query selection criteria, this will return the entire collection.
     print(i, result[i])
@@ -25,11 +25,28 @@ end
 ```lua
 ---@param collection string, this is the collection name the record that is being updated, belongs to
 ---@param id string, this is a record id from the queries collection
----@param query object, contains the 
+---@param query object, contains the query parameters for filtering your selection
 local result = PocketBase.getOne({ collection = "players", id = 'pep4715du0k9dcl', query = {}})
 for k, v in pairs(result) do -- result is a table of the key-values of the queried record
     print(k, tostring(v))
 end
+```
+
+### PocketBase.getFirstListItem
+```lua
+---@param collection string, this is the collection name the record that is being updated, belongs to
+---@param filter string, this is a record id from the queries collection
+---@param query object, contains the query parameters for filtering your selection
+local result = PocketBase.getFirstListItem({ collection = "vehicles", filter = 'model="elegyx"', query = {expand = 'playerid'}} )
+    if result[1] == nil then return end
+    for k, v in pairs(result[1]) do
+        print(k, tostring(v))
+        if k == 'expand' then
+            for a, s in pairs(v.playerid) do
+                print(k..'.'..a, tostring(s))
+            end
+        end
+    end
 ```
 
 ## ✏️ Update functions
@@ -45,6 +62,7 @@ local metadata = {
 ---@param collection string, this is the collection name the record that is being updated, belongs to
 ---@param id string, this is a record id from the queries collection
 ---@param body object, this contains the fields being updated, and the new values
+---@param query object, contains the query parameters for filtering your selection
 local result = PocketBase.update({ collection = "players", id = 'g78aknqxab695v1', body = {metadata = metadata}, query = {}})
 for k, v in pairs(result) do -- result is a table of the key-values of the updated record
     print(k, tostring(v))
@@ -61,6 +79,7 @@ end
 ```lua
 ---@param collection string, this is the collection name the record that is being updated, belongs to
 ---@param id string, this is a record id from the
+---@param query object, contains the query parameters for filtering your selection
 local result = PocketBase.delete({ collection = "players", id = 'ciiuthvkabafupj', query = {}})
 print(result) -- result is a bool
 ```
