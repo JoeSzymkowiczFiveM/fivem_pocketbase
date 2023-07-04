@@ -24,9 +24,17 @@ start fivem_pocketbase
 - Run `npm install` in `resources/fivem_pocketbase` directory.
 
 
+## 👀 Usage
+
+- Add the following line to the fxmanifest of the resource you want to use fivem_pocketbase in:
+```
+server_script '@fivem_pocketbase/lib/PocketBase.lua'
+```
+
+
 ## 👐 Credit
 
-I enjoyed playing around with the PocketBase database, and wanted to try to create my own lib in FiveM. I used knowledge, code and patterns from the [fivem-mongodb](https://github.com/nbredikhin/fivem-mongodb) resource to develop this. 
+I enjoyed playing around with the PocketBase database, and wanted to try to create my own lib in FiveM. I used knowledge, code and patterns from the [fivem-mongodb](https://github.com/nbredikhin/fivem-mongodb) resource to develop this. Huge shoutout to the [Overextended](https://github.com/overextended) group for technical discussions and support.
 
 
 # Discord
