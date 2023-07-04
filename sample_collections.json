@@ -1,0 +1,210 @@
+[
+    {
+        "id": "d9ssk25x2m581vn",
+        "name": "vehicles",
+        "type": "base",
+        "system": false,
+        "schema": [
+            {
+                "id": "z0ihlyw4",
+                "name": "plate",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "rcwdjge5",
+                "name": "model",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "9htwnjnh",
+                "name": "type",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "yhbysjil",
+                "name": "state",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "oalilids",
+                "name": "playerid",
+                "type": "relation",
+                "system": false,
+                "required": false,
+                "options": {
+                    "collectionId": "qttauqpu0sclzor",
+                    "cascadeDelete": false,
+                    "minSelect": null,
+                    "maxSelect": 1,
+                    "displayFields": [
+                        "id"
+                    ]
+                }
+            },
+            {
+                "id": "wzr5ee3n",
+                "name": "fuel",
+                "type": "number",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null
+                }
+            },
+            {
+                "id": "77s2q2av",
+                "name": "mods",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            },
+            {
+                "id": "rhhfzvkt",
+                "name": "status",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            }
+        ],
+        "indexes": [],
+        "listRule": null,
+        "viewRule": null,
+        "createRule": null,
+        "updateRule": null,
+        "deleteRule": null,
+        "options": {}
+    },
+    {
+        "id": "qttauqpu0sclzor",
+        "name": "players",
+        "type": "base",
+        "system": false,
+        "schema": [
+            {
+                "id": "pe9xhkxh",
+                "name": "license",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "jxb9whyg",
+                "name": "name",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "ylzwsvo8",
+                "name": "steam",
+                "type": "text",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "ttkl5ogb",
+                "name": "charinfo",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            },
+            {
+                "id": "pydwwozf",
+                "name": "metadata",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            },
+            {
+                "id": "rnvifxne",
+                "name": "money",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            },
+            {
+                "id": "oqvrggdh",
+                "name": "character_id",
+                "type": "number",
+                "system": false,
+                "required": false,
+                "options": {
+                    "min": null,
+                    "max": null
+                }
+            },
+            {
+                "id": "9qrukcmi",
+                "name": "job",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            },
+            {
+                "id": "am7uxe9t",
+                "name": "gang",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
+            }
+        ],
+        "indexes": [],
+        "listRule": "",
+        "viewRule": "",
+        "createRule": "",
+        "updateRule": "",
+        "deleteRule": "",
+        "options": {}
+    }
+]
