@@ -31,7 +31,7 @@ start fivem_pocketbase
 server_script '@fivem_pocketbase/lib/PocketBase.lua'
 ```
 - [LUA Usage functions](https://github.com/JoeSzymkowiczFiveM/fivem_pocketbase/blob/main/EXAMPLES.md)
-
+- I have included a couple collections that can be imported in your PocketBase instance, in the `sample_collections.json` file.
 ## 👐 Credit
 
 I enjoyed playing around with the PocketBase database, and wanted to try to create my own lib in FiveM. I used knowledge, code and patterns from the [fivem-mongodb](https://github.com/nbredikhin/fivem-mongodb) resource to develop this. Huge shoutout to the [Overextended](https://github.com/overextended) group for technical discussions and support.
