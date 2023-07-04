@@ -50,7 +50,7 @@ for k, v in pairs(result) do -- result is a table of the key-values of the updat
     print(k, tostring(v))
     if k == 'metadata' then
         for a, s in pairs(v) do
-            print(a, tostring(s))
+            print(k..'.'..a, tostring(s))
         end
     end
 end
