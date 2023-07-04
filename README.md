@@ -30,7 +30,7 @@ start fivem_pocketbase
 ```
 server_script '@fivem_pocketbase/lib/PocketBase.lua'
 ```
-
+- [LUA Usage functions](https://github.com/JoeSzymkowiczFiveM/fivem_pocketbase/blob/main/EXAMPLES.md)
 
 ## 👐 Credit
 
