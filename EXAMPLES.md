@@ -3,7 +3,7 @@
 Below are several examples of the function to use PocketBase.
 
 ## ✔️ Ready function
-```
+```lua
 PocketBase.ready(function()
     -- put code here that will be executed after the database connects
 end)
@@ -50,7 +50,6 @@ for k, v in pairs(result) do -- result is a table of the key-values of the updat
     if k == 'metadata' then
         for a, s in pairs(v) do
             print(a, tostring(s))
-
         end
     end
 end
