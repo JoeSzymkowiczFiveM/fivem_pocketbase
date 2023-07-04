@@ -24,6 +24,11 @@ start fivem_pocketbase
 - Run `npm install` in `resources/fivem_pocketbase` directory.
 
 
+## 👐 Credit
+
+I enjoyed playing around with the PocketBase database, and wanted to try to create my own lib in FiveM. I used knowledge, code and patterns from the [fivem-mongodb](https://github.com/nbredikhin/fivem-mongodb) resource to develop this. 
+
+
 # Discord
 
 [Joe Szymkowicz FiveM Development](https://discord.gg/5vPGxyCB4z)
