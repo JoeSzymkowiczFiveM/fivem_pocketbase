@@ -54,9 +54,11 @@ function safeObjectArgument(object) {
 
 async function dbGetFullList(params) {
     if (!checkDatabaseReady()) return;
+    let collection = getParamsCollection(params);
+    const query = safeObjectArgument(params.query);
     try {
-        let collection = getParamsCollection(params);
-        const result = await collection.getFullList(params.query);
+        
+        const result = await collection.getFullList(query);
         return result;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.getFullList: Error "${err.message}".`);
@@ -67,9 +69,13 @@ async function dbGetFullList(params) {
 async function dbUpdate(params) {
     if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
+    const body = safeObjectArgument(params.body);
+    const query = safeObjectArgument(params.query);
     try {
-        const result = await collection.update(params.id, params.body);
-        return result;
+        const result = await collection.update(params.id, body, query);
+        const arr = [];
+        arr.push(result);
+        return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
         return err.message;
@@ -83,7 +89,9 @@ async function dbCreate(params) {
     const query = safeObjectArgument(params.query);
     try {
         const result = await collection.create(body, query);
-        return result;
+        const arr = [];
+        arr.push(result);
+        return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.create: Error "${err.message}".`);
         return err.message;
@@ -93,8 +101,9 @@ async function dbCreate(params) {
 async function dbDelete(params) {
     if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
+    const query = safeObjectArgument(params.query);
     try {
-        const result = await collection.delete(params.id);
+        const result = await collection.delete(params.id, query);
         return result;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.delete: Error "${err.message}".`);
@@ -104,9 +113,12 @@ async function dbDelete(params) {
 
 async function dbGetOne(params) {
     const collection = getParamsCollection(params);
+    const query = safeObjectArgument(params.query);
     try {
-        const result = await collection.getOne(params.id);
-        return result;
+        const result = await collection.getOne(params.id, query);
+        const arr = [];
+        arr.push(result);
+        return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.getOne: Error "${err.message}".`);
         return err.message;
@@ -118,7 +130,9 @@ async function dbgetFirstListItem(params) {
     const query = safeObjectArgument(params.query);
     try {
         const result = await collection.getFirstListItem(params.filter, query);
-        return result;
+        const arr = [];
+        arr.push(result)
+        return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
         return err.message;
