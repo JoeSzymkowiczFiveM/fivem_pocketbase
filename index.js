@@ -131,7 +131,7 @@ async function dbgetFirstListItem(params) {
     try {
         const result = await collection.getFirstListItem(params.filter, query);
         const arr = [];
-        arr.push(result)
+        arr.push(result);
         return arr;
     } catch(err) {
         console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
