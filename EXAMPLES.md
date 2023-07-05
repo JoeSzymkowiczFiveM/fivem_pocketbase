@@ -17,7 +17,7 @@ end)
 ---@param query object, contains the query parameters for filtering your selection
 local result = PocketBase.getFullList({ collection = "players", query = {filter = 'created > "2022-08-01 10:00:00"'}})
 if result[1] == nil then return end
-for k, v in pairs(result[1]) do -- result is a table of the key-values of the queried record
+for k, v in pairs(result) do -- result is a table of the key-values of the queried records
     print(k, tostring(v))
 end
 ```
