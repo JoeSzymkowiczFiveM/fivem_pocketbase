@@ -51,6 +51,19 @@ for k, v in pairs(result[1]) do
 end
 ```
 
+## ✏️ Insert functions
+### PocketBase.create
+```lua
+---@param collection string, this is the collection name the record that is being updated, belongs to
+---@param body object, this contains the fields being updated, and the new values
+---@param query object, contains the query parameters for filtering your selection
+local result = PocketBase.create({ collection = "vehicles", body = {model = 'elegyx', plate = 'PLEE1233', type = 'automobile', state = 1, playerid = 'g78aknqxab695v1', fuel = 100, mods = {}, status = {}}, query = {}})
+if result[1] == nil then return end
+for k, v in pairs(result[1]) do
+    print(k, tostring(v))
+end
+```
+
 ## ✏️ Update functions
 ### PocketBase.update
 ```lua
