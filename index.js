@@ -1,150 +1,148 @@
-const PocketBase = require('pocketbase/cjs')
+const PocketBase = require('pocketbase/cjs');
 const fetch = require('cross-fetch');
 
-const url = GetConvar('pocketbase_url', '').replace(/'/g, "");
-const email = GetConvar('pocketbase_useremail', '').replace(/'/g, "");
-const password = GetConvar('pocketbase_password', '').replace(/'/g, "");
+let isServerConnected = false;
+const convars = {};
+let missingConvars;
+
+convars.url = GetConvar('pocketbase_url', '').replace(/'/g, "");
+convars.email = GetConvar('pocketbase_useremail', '').replace(/'/g, "");
+convars.password = GetConvar('pocketbase_password', '').replace(/'/g, "");
 
 let pb = null;
 
-if (url != '') {
-    connectToDatabase();
-} else {
-    if (url == '') console.log(`[PocketBase][ERROR] Convar "pocketbase_url" not set (see README)`);
-    if (email == '') console.log(`[PocketBase][ERROR] Convar "pocketbase_useremail" not set (see README)`);
-    if (password == '') console.log(`[PocketBase][ERROR] Convar "pocketbase_password" not set (see README)`);
-}
-
 async function connectToDatabase() {
-    pb = new PocketBase(url);
+    pb = new PocketBase(convars.url);
     try {
-        await pb.admins.authWithPassword(email, password);
-        console.log(`[PocketBase] Connected to PocketBase.`);
+        await pb.admins.authWithPassword(convars.email, convars.password);
+        console.log(`[^3PocketBase^7] Connected to database "${convars.url}".`);
+        isServerConnected = true
     } catch(err) {
         setTimeout(function() {
-            console.log(`[PocketBase][ERROR] Failed to connect to ${url}. Retrying connection.`);
+            console.log(`[^3PocketBase^7][^1ERROR^7] Failed to connect to ${convars.url}. Retrying connection.`);
             connectToDatabase();
             return;
         }, 5000);
     }
-}
+};
 
 function checkDatabaseReady() {
-    if (pb) {
+    if (isServerConnected) {
         return true;
     } else {
-        console.log(`[PocketBase][ERROR] PocketBase is not connected.`);
+        console.log(`[^3PocketBase^7][^1ERROR^7] PocketBase is not connected.`);
         return false;
-    }
-}
+    };
+};
 
 function getParamsCollection(params) {
     if (!params.collection) return;
     return pb.collection(params.collection);
-}
+};
 
 function safeObjectArgument(object) {
     if (!object) return {};
     if (Array.isArray(object)) {
         if (object.length === 0) return {};
         return object;
-    }
+    };
     if (typeof object !== "object") return {};
-    return object
+    return object;
 };
 
-async function dbGetFullList(params) {
+exports('getFullList', async (params, cb) => {
     if (!checkDatabaseReady()) return;
-    let collection = getParamsCollection(params);
-    const query = safeObjectArgument(params.query);
+    const collection = getParamsCollection(params);
+    const options = safeObjectArgument(params.options);
     try {
         
-        const result = await collection.getFullList(query);
-        return result;
+        const result = await collection.getFullList(options);
+        return cb ? cb(result) : result;
     } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.getFullList: Error "${err.message}".`);
-        return [{}];
-    }
-}
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.getFullList: Error "${err.message}".`);
+        return cb ? cb([]) : [];
+    };
+});
 
-async function dbUpdate(params) {
+exports('create', async (params, cb) => {
     if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
     const body = safeObjectArgument(params.body);
-    const query = safeObjectArgument(params.query);
+    const options = safeObjectArgument(params.options);
     try {
-        const result = await collection.update(params.id, body, query);
-        const arr = [];
-        arr.push(result);
-        return arr;
+        const result = await collection.create(body, options);
+        return cb ? cb(result) : result;
     } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
-        return [{}];
-    }
-}
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.create: Error "${err.message}".`);
+        return cb ? cb(false) : false;
+    };
+});
 
-async function dbCreate(params) {
+exports('update', async (params, cb) => {
     if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
     const body = safeObjectArgument(params.body);
-    const query = safeObjectArgument(params.query);
+    const options = safeObjectArgument(params.options);
+    const id = safeObjectArgument(params.id);
     try {
-        const result = await collection.create(body, query);
-        const arr = [];
-        arr.push(result);
-        return arr;
-    } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.create: Error "${err.message}".`);
-        return [{}];
-    }
-}
-
-async function dbDelete(params) {
-    if (!checkDatabaseReady()) return;
-    const collection = getParamsCollection(params);
-    const query = safeObjectArgument(params.query);
-    try {
-        const result = await collection.delete(params.id, query);
+        const result = await collection.update(id, body, options);
         return result;
     } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.delete: Error "${err.message}".`);
-        return [{}];
-    }
-}
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.update: Error "${err.message}".`);
+        return false;
+    };
+});
 
-async function dbGetOne(params) {
+exports('delete', async (params, cb) => {
+    if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
-    const query = safeObjectArgument(params.query);
+    const options = safeObjectArgument(params.options);
     try {
-        const result = await collection.getOne(params.id, query);
-        const arr = [];
-        arr.push(result);
-        return arr;
+        const result = await collection.delete(params.id, options);
+        return cb ? cb(result) : result;
     } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.getOne: Error "${err.message}".`);
-        return [{}];
-    }
-}
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.delete: Error "${err.message}".`);
+        return cb ? cb(false) : false;
+    };
+});
 
-async function dbgetFirstListItem(params) {
+exports('getOne', async (params, cb) => {
+    if (!checkDatabaseReady()) return;
     const collection = getParamsCollection(params);
-    const query = safeObjectArgument(params.query);
+    const options = safeObjectArgument(params.options);
     try {
-        const result = await collection.getFirstListItem(params.filter, query);
-        const arr = [];
-        arr.push(result)
-        return arr;
+        const result = await collection.getOne(params.id, options);
+        return cb ? cb(result) : result;
     } catch(err) {
-        console.log(`[PocketBase][ERROR] exports.update: Error "${err.message}".`);
-        return [{}];
-    }
-}
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.getOne: Error "${err.message}".`);
+        return cb ? cb(false) : false;
+    };
+});
 
-/* Exports definitions */
-exports("isConnected", () => !!pb);
-exports("getFullList", dbGetFullList);
-exports("update", dbUpdate);
-exports("create", dbCreate);
-exports("delete", dbDelete);
-exports("getOne", dbGetOne);
-exports("getFirstListItem", dbgetFirstListItem);
+exports('getFirstListItem', async (params, cb) => {
+    if (!checkDatabaseReady()) return;
+    const collection = getParamsCollection(params);
+    const options = safeObjectArgument(params.options);
+    try {
+        const result = await collection.getFirstListItem(params.filter, options);
+        return cb ? cb(result) : result;
+    } catch(err) {
+        console.log(`[^3PocketBase^7][^1ERROR^7] exports.update: Error "${err.message}".`);
+        return cb ? cb(false) : false;
+    };
+});
+
+exports('isConnected', async () => {
+    return !!isServerConnected;
+});
+
+for (const [key, value] of Object.entries(convars)) {
+    if (value === '') {
+        console.log(`[^3PocketBase^7][^1ERROR^7] Convar "pocketbase_${key}" not set (see README)`);
+        missingConvars = true;
+    };
+};
+
+if (!missingConvars) {
+    connectToDatabase();
+};

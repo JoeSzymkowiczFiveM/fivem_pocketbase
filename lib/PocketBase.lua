@@ -1,55 +1,41 @@
-local Await = Citizen.Await
+local PocketBase = {}
+local pocketbase = exports.fivem_pocketbase
 
-PocketBase = {}
+setmetatable(PocketBase, {
+    __index = function(self, method)
+        self[method] = setmetatable({}, {
+            __call = function(...)
+                return pocketbase[method](...)
+            end,
+            __index = function(_, key)
+                if (method == "Async") then
+                    return function(params, cb)
+                        return pocketbase[key](pocketbase, params, cb)
+                    end
+                end
+            end
+        })
+        return self[method]
+    end
+})
 
-function PocketBase.getFullList(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:getFullList(params)
-    p:resolve(result)
-    return Await(p)
+local function onReady(cb)
+	while GetResourceState('fivem_pocketbase') ~= 'started' do
+		Wait(50)
+	end
+
+	repeat
+        Wait(5)
+    until pocketbase:isConnected()
+    cb()
 end
 
-function PocketBase.update(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:update(params)
-    p:resolve(result)
-    return Await(p)
-end
+PocketBase.ready = setmetatable({
+	await = onReady
+}, {
+	__call = function(_, cb)
+		Citizen.CreateThreadNow(function() onReady(cb) end)
+	end,
+})
 
-function PocketBase.create(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:create(params)
-    p:resolve(result)
-    return Await(p)
-end
-
-function PocketBase.delete(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:delete(params)
-    p:resolve(result)
-    return Await(p)
-end
-
-function PocketBase.getOne(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:getOne(params)
-    p:resolve(result)
-    return Await(p)
-end
-
-function PocketBase.getFirstListItem(params)
-    local p = promise.new()
-    local result = exports.fivem_pocketbase:getFirstListItem(params)
-    p:resolve(result)
-    return Await(p)
-end
-
-function PocketBase.ready(cb)
-    CreateThread(function()
-        while GetResourceState('fivem_pocketbase') ~= 'started' do Wait(100) end
-        repeat
-            Wait(3000)
-        until exports.fivem_pocketbase:isConnected()
-        cb()
-    end)
-end
+_ENV.PocketBase = PocketBase
