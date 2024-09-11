@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/JoeSzymkowiczFiveM/fivem_pocketbase/assets/70592880/bfa1b8a2-b688-454d-8fc7-bacdf9a1ac5f">
+  <img src="https://github.com/user-attachments/assets/a9d4288b-a036-4d43-9b26-d18761d68d38">
 </p>
 
 
